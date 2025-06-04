@@ -144,6 +144,26 @@ class TestFlaskr:
             # the database state is not guaranteed. In a real-world scenario,
             # you might want to set up a known database state before running this test.
 
+    def test_test_endpoint(self):
+        """
+        Test the /test endpoint to ensure it returns the expected JSON response.
+        """
+        with app.test_client() as client:
+            # Make a GET request to the /test endpoint
+            response = client.get('/test')
+
+            # Check if the response status code is 200 (OK)
+            assert response.status_code == 200
+
+            # Check if the response is JSON
+            assert response.content_type == 'application/json'
+
+            # Check if the response contains the expected data
+            import json
+            data = json.loads(response.data)
+            assert data['status'] == 'success'
+            assert data['message'] == 'Test successful'
+
 
 
 class AuthActions(object):
